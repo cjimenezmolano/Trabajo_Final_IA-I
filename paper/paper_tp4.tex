@@ -1,0 +1,356 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,mexico]{babel}
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{hyperref}
+
+\begin{document}
+
+\title{Predicción de precios y clasificación de sistemas constructivos\\
+en el mercado inmobiliario de Tokio:\\
+un estudio sobre 344.000 transacciones}
+
+\author{
+\IEEEauthorblockN{Nombre del Autor}
+\IEEEauthorblockA{\textit{Licenciatura en Ciencia de Datos} \\
+\textit{Pontificia Universidad Católica Argentina}\\
+Rosario, Argentina \\
+correo@ejemplo.edu.ar}
+}
+
+\maketitle
+
+\begin{abstract}
+El mercado inmobiliario de Tokio presenta una heterogeneidad extrema: conviven operaciones
+residenciales de pocos millones de yenes con transacciones corporativas que superan los
+\textyen170.000 millones. Este trabajo aborda dos tareas complementarias sobre el registro
+público de transacciones del Ministerio de Tierra, Infraestructura, Transporte y Turismo
+(MLIT) de Japón: la estimación del valor de transacción y la clasificación del sistema
+constructivo del edificio. Se procesaron 343.995 operaciones de la Prefectura de Tokio
+(2005--2025) resolviendo tres problemas de calidad no triviales: un artefacto de codificación
+en las superficies, valores textuales en la distancia a estación y un objetivo de
+clasificación multi-etiqueta. Para la regresión se compararon tres modelos sobre el logaritmo
+del precio, obteniendo XGBoost el mejor desempeño ($R^2_{\log}=0{,}848$). Para la
+clasificación, con un desbalance de 65,6:1, XGBoost alcanzó un F1 macro de 0,566 y un ROC-AUC
+one-vs-rest de 0,948. Se identifica una relación contraintuitiva: la distancia a la estación
+correlaciona débilmente con el precio ($r=-0{,}07$) pero fuertemente con los índices de
+edificabilidad, sugiriendo que su efecto opera por vía de la zonificación. Ambos modelos se
+desplegaron en una aplicación web que comunica explícitamente la incertidumbre de sus
+estimaciones.
+\end{abstract}
+
+\begin{IEEEkeywords}
+aprendizaje automático, mercado inmobiliario, regresión, clasificación multiclase, desbalance
+de clases, XGBoost
+\end{IEEEkeywords}
+
+\section{Introducción}
+
+La valuación inmobiliaria automatizada (\textit{Automated Valuation Model}, AVM) constituye una
+de las aplicaciones más consolidadas del aprendizaje automático sobre datos tabulares. Su
+utilidad abarca desde la tasación asistida hasta el análisis de política urbana, y su
+viabilidad depende críticamente de la disponibilidad de registros de transacciones
+suficientemente extensos y confiables.
+
+El caso japonés resulta particularmente interesante. El MLIT publica de forma abierta los
+precios de transacción reportados por las partes intervinientes, con un nivel de detalle que
+incluye atributos del lote, del edificio y del entorno urbano \cite{mlit}. Sin embargo, la
+Prefectura de Tokio presenta una dificultad estructural: su mercado es extraordinariamente
+heterogéneo. Los distritos centrales concentran edificios corporativos cuyo valor supera en
+varios órdenes de magnitud al de las viviendas unifamiliares de los distritos periféricos.
+
+Trabajos previos sobre predicción de precios inmobiliarios han mostrado que los métodos de
+ensamble basados en árboles superan consistentemente a los modelos lineales en datos
+tabulares heterogéneos \cite{chen2016,breiman2001}. La transformación logarítmica del objetivo
+es práctica habitual ante distribuciones de precios con asimetría severa \cite{hastie2009}.
+Por su parte, la clasificación bajo desbalance de clases exige métricas específicas: la
+exactitud resulta engañosa cuando una clase domina la muestra, y se recomienda el uso de
+F1 macro o coeficiente kappa \cite{he2009}.
+
+Este trabajo persigue tres objetivos:
+
+\begin{enumerate}
+\item Caracterizar y resolver los problemas de calidad del registro del MLIT para la
+      Prefectura de Tokio, documentando cada decisión metodológica.
+\item Comparar tres algoritmos de regresión para estimar el valor de transacción, y tres
+      algoritmos de clasificación para predecir el sistema constructivo del edificio.
+\item Desplegar los modelos resultantes en una aplicación web que comunique de manera
+      responsable la incertidumbre de sus predicciones.
+\end{enumerate}
+
+\section{Metodología}
+
+\subsection{Datos}
+
+El conjunto de datos comprende \textbf{343.995 transacciones} de la Prefectura de Tokio
+registradas entre 2005 y 2025, descritas por 27 variables originales. Cada fila corresponde a
+una operación de compraventa reportada al MLIT.
+
+Una decisión de diseño temprana fue trabajar sobre la prefectura completa en lugar de acotarse
+a un único distrito. Esto habilita el uso del \textit{ward} (distrito administrativo) como
+variable predictora, incorporando 59 categorías geográficas que, como muestra la
+Sección~\ref{sec:eda}, resultan determinantes para el precio.
+
+\subsection{Problemas de calidad y su tratamiento}
+
+El preprocesamiento debió resolver cinco problemas no triviales.
+
+\textbf{Artefacto de codificación.} Las columnas de superficie llegan en codificación
+Windows-1252, donde el carácter japonés correspondiente a metro cuadrado se corrompe en una
+secuencia espuria de dos caracteres ASCII. Los valores del extremo superior aparecen como
+\texttt{2,000 [artefacto] or greater.}. Una conversión numérica directa los habría convertido en
+nulos, eliminando precisamente las operaciones de mayor superficie. Se extrajo el valor
+mediante expresiones regulares y se marcó la censura con una variable indicadora.
+
+\textbf{Distancia a estación no numérica.} La variable combina minutos numéricos con rangos
+textuales (\texttt{30-60minutes}, \texttt{1H-1H30}, \texttt{2H-}). Se implementó un
+analizador que convierte cada formato a minutos, tomando el punto medio en los intervalos
+cerrados y el extremo inferior en los abiertos.
+
+\textbf{Nulos estructurales.} Las operaciones de tipo \textit{Land Only} carecen de edificio
+por definición: superficie construida, año de construcción y estructura están vacíos por
+naturaleza del registro, no por ausencia de dato. Imputar estadísticamente esas columnas
+habría fabricado edificios inexistentes. Se optó por un indicador binario
+\texttt{sin\_edificio} y relleno neutro.
+
+\textbf{Inconsistencias temporales.} Se detectaron 7.066 registros con antigüedad negativa
+--- edificios cuyo año de construcción es posterior al de la operación ---. Se marcaron con
+una variable indicadora y se llevaron a cero.
+
+\textbf{Objetivo multi-etiqueta.} La variable \texttt{Building : Structure} no presenta cuatro
+categorías limpias sino aproximadamente 25, incluyendo combinaciones (\texttt{RC, W}) y
+clases marginales (\texttt{LS}, \texttt{B}). Se derivó \texttt{estructura\_principal}
+conservando el primer sistema constructivo listado y agrupando las categorías marginales bajo
+\texttt{Otros}.
+
+\subsection{Ingeniería de características}
+
+Se derivaron variables temporales (año y trimestre de operación, antigüedad del edificio), de
+densidad (\texttt{ratio\_construido} como cociente entre superficie construida y del terreno) y
+seis indicadores binarios de uso a partir de la columna multi-valor \texttt{Use}.
+
+El tratamiento de la cardinalidad geográfica mereció atención específica. El \textit{ward}
+(59 categorías) se codificó mediante \textit{one-hot}, por ser interpretable y de cardinalidad
+manejable. En cambio \texttt{District} (1.449 categorías) y la estación más cercana (660) se
+redujeron a las 100 más frecuentes agrupando el resto bajo \texttt{Otros}, para luego aplicar
+codificación por frecuencia. Cabe señalar que un criterio inicial basado en umbral porcentual
+(0,5\%) resultó inadecuado: con 344.000 filas exigía más de 1.700 casos por categoría,
+relegando el 98\% de los registros a \texttt{Otros}. El criterio top-$N$ controla el número de
+categorías con independencia del tamaño de la muestra.
+
+\subsection{Diseño experimental}
+
+Ambas tareas emplean partición \textit{hold-out} 80/20 con semilla fija y validación cruzada de
+5 particiones sobre el conjunto de entrenamiento. Todo el preprocesamiento se encapsuló en
+objetos \texttt{Pipeline} de scikit-learn \cite{pedregosa2011}, de modo que la imputación y el
+escalado se ajustan exclusivamente sobre los datos de entrenamiento en cada partición,
+evitando fuga de información.
+
+Para la regresión, el objetivo se modela como $\log(1+y)$ y las métricas se reportan en yenes
+aplicando la transformación inversa. Se excluyeron del conjunto de predictores las variables
+derivadas del precio (\texttt{precio\_suelo\_m2}, \texttt{precio\_por\_m2}) por constituir fuga
+directa del objetivo.
+
+Para la clasificación se aplicó partición estratificada y \texttt{class\_weight="balanced"} en
+los modelos que lo admiten. La métrica de referencia es el F1 macro.
+
+\section{Resultados}
+\label{sec:eda}
+
+\subsection{Análisis exploratorio}
+
+La distribución del precio presenta una asimetría extrema (coeficiente de asimetría de 150,4),
+con mediana de \textyen46 millones, media de \textyen96,5 millones y máximo de
+\textyen170.000 millones. La transformación logarítmica reduce la asimetría a 0,38,
+justificando su adopción como escala de modelado.
+
+El hallazgo más relevante del análisis exploratorio proviene de la comparación entre distritos.
+El precio mediano por metro cuadrado varía en un factor cercano a cuatro: Chiyoda alcanza
+\textyen2,4 millones/m\textsuperscript{2} mientras que Sumida se sitúa en torno a
+\textyen0,63 millones/m\textsuperscript{2}. Más aún, el ordenamiento por volumen de operaciones
+resulta prácticamente inverso: Setagaya, Nerima y Adachi lideran en cantidad de transacciones
+sin figurar entre los distritos más caros. Esta disociación entre precio y volumen justifica
+empíricamente la incorporación del \textit{ward} como predictor.
+
+Un segundo hallazgo resulta contraintuitivo. La distancia a la estación ferroviaria muestra una
+correlación muy débil con el precio ($r = -0{,}07$), contra la expectativa de que la
+accesibilidad fuera un determinante principal. Sin embargo, correlaciona apreciablemente con
+los índices de edificabilidad: $-0{,}36$ con el \textit{building coverage ratio} y $-0{,}33$
+con el \textit{floor area ratio}. La interpretación plausible es que la proximidad a estaciones
+opera principalmente a través de la zonificación urbana --- las áreas mejor conectadas admiten
+mayor densidad constructiva --- y que su efecto sobre el precio es por tanto indirecto.
+
+Se detectó además colinealidad elevada entre \textit{building coverage ratio} y \textit{floor
+area ratio} ($r = 0{,}81$), factor a considerar en la interpretación del modelo lineal.
+
+\subsection{Regresión sobre el precio}
+
+La Tabla~\ref{tab:regresion} resume el desempeño de los tres modelos.
+
+\begin{table}[htbp]
+\caption{Desempeño de los modelos de regresión (conjunto de prueba)}
+\label{tab:regresion}
+\centering
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Modelo} & $\mathbf{R^2_{\log}}$ & $\mathbf{R^2_{\text{\textyen}}}$ & \textbf{MAE (\textyen)} & \textbf{MAPE} \\
+\midrule
+Regresión Lineal & 0,724 & 0,100 & 47.182.148 & 164,3\% \\
+Random Forest    & 0,705 & 0,077 & 43.225.680 & 195,9\% \\
+\textbf{XGBoost} & \textbf{0,848} & \textbf{0,267} & \textbf{29.490.866} & \textbf{140,1\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+XGBoost domina en todas las métricas evaluadas. La superioridad frente a la regresión lineal
+(0,848 contra 0,724 en $R^2_{\log}$) confirma la presencia de relaciones no lineales e
+interacciones entre ubicación, superficie y antigüedad que el modelo lineal no captura.
+
+Merece discusión la brecha entre el $R^2$ calculado en escala logarítmica (0,848) y el
+calculado en yenes (0,267). Ambos describen el mismo modelo: la diferencia obedece a que la
+transformación inversa $\exp(x)-1$ amplifica exponencialmente los errores en la cola superior
+de la distribución. Un error de 0,37 en escala logarítmica --- el desvío observado de los
+residuos --- se traduce en miles de millones de yenes cuando se aplica sobre una operación de
+\textyen170.000 millones. El $R^2$ logarítmico constituye la comparación justa entre modelos,
+puesto que es la escala en que estos optimizan; el $R^2$ en yenes informa sobre la utilidad
+práctica de las estimaciones en valores absolutos.
+
+El análisis de importancia de variables sitúa a \texttt{area\_construida\_m2} entre los
+predictores principales, junto con múltiples indicadores de \textit{ward}, lo que respalda
+la decisión de incorporar la dimensión geográfica.
+
+\subsection{Clasificación del sistema constructivo}
+
+La distribución del objetivo evidencia un desbalance severo: \texttt{W} (madera) representa el
+80,8\% de los casos, seguida de \texttt{S} (7,5\%), \texttt{RC} (7,45\%), \texttt{Otros}
+(3,0\%) y \texttt{SRC} (1,2\%), con una relación de 65,6:1 entre la clase mayoritaria y la
+minoritaria.
+
+\begin{table}[htbp]
+\caption{Desempeño de los modelos de clasificación (conjunto de prueba)}
+\label{tab:clasificacion}
+\centering
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Modelo} & \textbf{F1 macro} & \textbf{Exactitud} & \textbf{Kappa} & \textbf{ROC-AUC} \\
+\midrule
+Reg. Logística   & 0,493 & 0,725 & 0,409 & 0,903 \\
+Random Forest    & 0,554 & 0,772 & 0,485 & 0,932 \\
+\textbf{XGBoost} & \textbf{0,566} & \textbf{0,892} & \textbf{0,635} & \textbf{0,948} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La Tabla~\ref{tab:clasificacion} ilustra por qué la exactitud resulta inadecuada como métrica
+de referencia. XGBoost alcanza un 89,2\% de exactitud, pero un clasificador trivial que
+predijera siempre \texttt{W} obtendría aproximadamente 81\% sin detectar ningún otro sistema
+constructivo. El F1 macro de 0,566 ofrece una lectura más honesta del desempeño.
+
+El desempeño por clase confirma esta interpretación: el \textit{recall} sobre \texttt{W}
+alcanza 0,987, mientras que sobre \texttt{Otros} se reduce a 0,048 y sobre \texttt{SRC} a
+0,454. Como se anticipaba, la matriz de confusión revela que \texttt{RC} y \texttt{SRC}
+concentran la mayor confusión mutua, resultado esperable dado que ambos sistemas comparten
+características constructivas y perfiles de uso similares.
+
+\subsection{Análisis no supervisado}
+
+Se aplicó agrupamiento por $k$-medias sobre las variables preprocesadas, con $k$ igual al
+número de clases. El índice de Rand ajustado entre las agrupaciones obtenidas y las clases
+reales alcanzó 0,211, valor que indica una coincidencia parcial pero claramente insuficiente.
+
+Este resultado admite una lectura sustantiva: la estructura natural de los datos responde
+principalmente a la ubicación y el tamaño de los inmuebles, no a su sistema constructivo. El
+material de un edificio depende de factores --- normativa antisísmica vigente al momento de la
+construcción, época, decisión del desarrollador --- que las variables disponibles capturan solo
+de manera parcial. Esta limitación explica también el techo observado en el desempeño de los
+clasificadores supervisados.
+
+\section{Despliegue}
+
+Los modelos se integraron en una aplicación web desarrollada con Streamlit, organizada en dos
+pestañas correspondientes a cada tarea. Los artefactos se serializan como objetos
+\texttt{Pipeline} completos, de modo que la aplicación no replica lógica de preprocesamiento:
+recibe los datos del formulario en su forma cruda y delega las transformaciones en el pipeline.
+
+Un aspecto central del diseño fue la comunicación de la incertidumbre. Dado el MAPE del 140\%
+documentado en la Tabla~\ref{tab:regresion}, presentar una estimación puntual induciría una
+falsa sensación de precisión. La aplicación muestra en cambio un intervalo construido a partir
+del desvío de los residuos en escala logarítmica, necesariamente asimétrico al expresarse en
+yenes, y emite una advertencia explícita cuando la estimación supera el umbral a partir del
+cual el error esperado se incrementa sustancialmente.
+
+De modo análogo, la pestaña de clasificación presenta la distribución completa de
+probabilidades por clase y señala cuando la predicción corresponde a una categoría minoritaria
+sobre la cual el modelo exhibe bajo \textit{recall}.
+
+\section{Discusión y conclusiones}
+
+Este trabajo confirma que los métodos de ensamble basados en árboles superan a los modelos
+lineales en datos inmobiliarios tabulares, en línea con la literatura previa. La mejora de
+XGBoost sobre la regresión lineal (0,848 contra 0,724 en $R^2_{\log}$) es consistente y se
+sostiene en todas las métricas evaluadas.
+
+La etapa más desafiante no fue el modelado sino la preparación de los datos. Tres de los cinco
+problemas de calidad identificados --- el artefacto de codificación, la distancia textual y el
+objetivo multi-etiqueta --- habrían pasado inadvertidos bajo un procesamiento superficial, y
+cada uno tenía potencial para invalidar los resultados. El caso del objetivo multi-etiqueta es
+ilustrativo: sin normalización, el clasificador habría entrenado sobre aproximadamente 25
+categorías, varias con un puñado de ejemplos.
+
+Respecto de la utilidad práctica, corresponde ser cauto. El modelo de regresión resulta
+adecuado para estimar el orden de magnitud de una operación típica, pero su MAPE del 140\% lo
+inhabilita como herramienta de tasación. El clasificador ofrece un desempeño razonable sobre
+las clases frecuentes y limitado sobre las minoritarias.
+
+Deben señalarse asimismo las limitaciones éticas y de sesgo. Los datos son autoreportados por
+las partes intervinientes, lo que admite subreporte sistemático. La cobertura se restringe a
+Tokio, de modo que el modelo no generaliza a otras prefecturas. Y el registro omite atributos
+determinantes del valor --- calidad constructiva, estado de conservación, condiciones
+particulares de cada negociación --- que ningún algoritmo puede inferir de las variables
+disponibles. Un sistema de valuación desplegado sin estas advertencias podría inducir
+decisiones económicas mal fundadas.
+
+Como líneas de trabajo futuro se identifican: la incorporación de variables geoespaciales
+explícitas (coordenadas, distancia al centro), la evaluación de técnicas de sobremuestreo para
+las clases minoritarias, y la construcción de intervalos de predicción mediante regresión
+cuantílica en lugar de la aproximación por desvío de residuos empleada aquí.
+
+\begin{thebibliography}{00}
+
+\bibitem{mlit}
+Ministry of Land, Infrastructure, Transport and Tourism of Japan, ``Real Estate Transaction
+Price Information,'' 2025. [En línea]. Disponible:
+\url{https://www.land.mlit.go.jp/webland_english/servlet/MainServlet}
+
+\bibitem{chen2016}
+T. Chen y C. Guestrin, ``XGBoost: A scalable tree boosting system,'' en \textit{Proc. 22nd ACM
+SIGKDD Int. Conf. Knowledge Discovery and Data Mining}, San Francisco, CA, EE.UU., 2016,
+pp. 785--794.
+
+\bibitem{breiman2001}
+L. Breiman, ``Random forests,'' \textit{Machine Learning}, vol. 45, n.\textsuperscript{o} 1,
+pp. 5--32, 2001.
+
+\bibitem{hastie2009}
+T. Hastie, R. Tibshirani y J. Friedman, \textit{The Elements of Statistical Learning: Data
+Mining, Inference, and Prediction}, 2.\textsuperscript{a} ed. Nueva York, NY, EE.UU.:
+Springer, 2009.
+
+\bibitem{he2009}
+H. He y E. A. Garcia, ``Learning from imbalanced data,'' \textit{IEEE Trans. Knowledge and
+Data Engineering}, vol. 21, n.\textsuperscript{o} 9, pp. 1263--1284, 2009.
+
+\bibitem{pedregosa2011}
+F. Pedregosa \textit{et al.}, ``Scikit-learn: Machine learning in Python,'' \textit{Journal of
+Machine Learning Research}, vol. 12, pp. 2825--2830, 2011.
+
+\end{thebibliography}
+
+\end{document}

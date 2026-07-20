@@ -1,0 +1,16 @@
+# Dependencias de la app de despliegue (TP4)
+#
+# IMPORTANTE: los archivos .joblib guardan objetos de scikit-learn y XGBoost serializados.
+# Si la versión instalada en el servidor difiere mucho de aquella con la que se entrenó,
+# la carga puede fallar o emitir InconsistentVersionWarning.
+#
+# Para fijar tus versiones exactas, ejecutá en el entorno donde entrenaste los modelos:
+#   python -c "import sklearn, xgboost, pandas, numpy; print(sklearn.__version__, xgboost.__version__, pandas.__version__, numpy.__version__)"
+# y reemplazá los rangos de abajo por ==<version>.
+
+streamlit>=1.30,<2.0
+scikit-learn>=1.4,<2.0
+xgboost>=2.0,<4.0
+pandas>=2.0,<3.1
+numpy>=1.26,<3.0
+joblib>=1.3,<2.0

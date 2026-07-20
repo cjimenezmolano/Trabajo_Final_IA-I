@@ -1,0 +1,185 @@
+2026-07-19 20:08:26.055 No ASGI app assignments found in C:\Users\camij\Downloads\TP4_Despliegue\TP4\app.py
+2026-07-19 20:08:26.300 Filtered 144 packages down to 1 candidates for component scanning
+2026-07-19 20:08:26.300 Scanning 1 candidate packages for component manifests using 1 worker threads
+2026-07-19 20:08:26.364 Found 0 component manifests total
+2026-07-19 20:08:26.364 No asset roots to watch
+2026-07-19 20:08:26.364 File watching not started
+2026-07-19 20:08:26.364 Starting new event loop for server
+2026-07-19 20:08:26.364 Starting server...
+2026-07-19 20:08:26.412 Starting uvicorn server on :::8501
+2026-07-19 20:08:26.441 Runtime state: RuntimeState.INITIAL -> RuntimeState.NO_SESSIONS_CONNECTED
+2026-07-19 20:08:26.441 Uvicorn server started on :::8501
+2026-07-19 20:08:26.496 Setting up signal handler
+2026-07-19 20:08:27.010 No singleton. Registering one.
+2026-07-19 20:08:27.012 Watcher created for C:\Users\camij\Downloads\TP4_Despliegue\TP4\app.py
+2026-07-19 20:08:27.012 AppSession initialized (id=d537c750-2f50-4697-bd05-c151797b4917)
+2026-07-19 20:08:27.012 Created new session for client 2288583439376. Session ID: d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 20:08:27.012 Runtime state: RuntimeState.NO_SESSIONS_CONNECTED -> RuntimeState.ONE_OR_MORE_SESSIONS_CONNECTED
+2026-07-19 20:08:27.016 Beginning script thread
+2026-07-19 20:08:27.016 Running script
+2026-07-19 20:08:27.016 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 20:08:27.016 Sessions still active: dict_keys([])
+2026-07-19 20:08:27.016 Files: 0; Sessions with files: 0
+2026-07-19 20:08:27.571 Creating new ResourceCache (key=f783f5670e8f49c12e1e4f146b08dedc)
+2026-07-19 20:08:27.571 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 20:08:29.206 Removing orphaned files...
+2026-07-19 20:08:29.209 Removing orphaned deferred callables...
+2026-07-19 20:08:33.510 Beginning script thread
+2026-07-19 20:08:33.510 Running script
+2026-07-19 20:08:33.510 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 20:08:33.510 Sessions still active: dict_keys([])
+2026-07-19 20:08:33.510 Files: 0; Sessions with files: 0
+2026-07-19 20:08:33.510 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 20:08:33.599 Removing orphaned files...
+2026-07-19 20:08:33.600 Removing orphaned deferred callables...
+2026-07-19 20:08:48.389 Beginning script thread
+2026-07-19 20:08:48.389 Running script
+2026-07-19 20:08:48.389 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 20:08:48.389 Sessions still active: dict_keys([])
+2026-07-19 20:08:48.389 Files: 0; Sessions with files: 0
+2026-07-19 20:08:48.391 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 20:08:48.420 Removing orphaned files...
+2026-07-19 20:08:48.420 Removing orphaned deferred callables...
+2026-07-19 20:08:49.353 Beginning script thread
+2026-07-19 20:08:49.353 Running script
+2026-07-19 20:08:49.353 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 20:08:49.353 Sessions still active: dict_keys([])
+2026-07-19 20:08:49.353 Files: 0; Sessions with files: 0
+2026-07-19 20:08:49.355 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 20:08:49.397 Removing orphaned files...
+2026-07-19 20:08:49.397 Removing orphaned deferred callables...
+2026-07-19 20:08:54.250 Beginning script thread
+2026-07-19 20:08:54.250 Running script
+2026-07-19 20:08:54.250 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 20:08:54.250 Sessions still active: dict_keys([])
+2026-07-19 20:08:54.250 Files: 0; Sessions with files: 0
+2026-07-19 20:08:54.253 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 20:08:54.306 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-07-19 20:08:54.313 Removing orphaned files...
+2026-07-19 20:08:54.313 Removing orphaned deferred callables...
+2026-07-19 20:33:39.921 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 20:33:39.922 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 20:33:40.925 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 20:33:40.958 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 20:33:40.960 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 20:33:52.975 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 20:33:52.977 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 20:34:23.540 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 20:34:23.542 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 20:36:23.567 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 20:36:23.568 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 21:03:39.858 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 21:03:39.890 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 21:07:09.884 Beginning script thread
+2026-07-19 21:07:09.884 Running script
+2026-07-19 21:07:09.884 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 21:07:09.884 Sessions still active: dict_keys([])
+2026-07-19 21:07:09.884 Files: 0; Sessions with files: 0
+2026-07-19 21:07:09.889 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 21:07:09.940 Removing orphaned files...
+2026-07-19 21:07:09.940 Removing orphaned deferred callables...
+2026-07-19 21:33:40.375 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 21:33:40.400 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 21:33:41.426 File/dir timestamp did not change: C:\Users\camij\Downloads\TP4_Despliegue\TP4\app.py
+2026-07-19 22:03:40.641 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 22:03:40.669 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 22:33:40.849 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 22:33:40.886 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
+2026-07-19 22:33:41.901 File/dir timestamp did not change: C:\Users\camij\Downloads\TP4_Despliegue\TP4\app.py
+2026-07-19 23:02:23.817 Beginning script thread
+2026-07-19 23:02:23.819 Running script
+2026-07-19 23:02:23.819 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 23:02:23.819 Sessions still active: dict_keys([])
+2026-07-19 23:02:23.819 Files: 0; Sessions with files: 0
+2026-07-19 23:02:23.833 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 23:02:23.915 Removing orphaned files...
+2026-07-19 23:02:23.915 Removing orphaned deferred callables...
+2026-07-19 23:02:25.562 Beginning script thread
+2026-07-19 23:02:25.563 Running script
+2026-07-19 23:02:25.563 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 23:02:25.563 Sessions still active: dict_keys([])
+2026-07-19 23:02:25.563 Files: 0; Sessions with files: 0
+2026-07-19 23:02:25.564 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 23:02:25.589 Removing orphaned files...
+2026-07-19 23:02:25.589 Removing orphaned deferred callables...
+2026-07-19 23:02:27.210 Beginning script thread
+2026-07-19 23:02:27.211 Running script
+2026-07-19 23:02:27.211 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 23:02:27.211 Sessions still active: dict_keys([])
+2026-07-19 23:02:27.211 Files: 0; Sessions with files: 0
+2026-07-19 23:02:27.213 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 23:02:27.259 Removing orphaned files...
+2026-07-19 23:02:27.259 Removing orphaned deferred callables...
+2026-07-19 23:02:29.552 Beginning script thread
+2026-07-19 23:02:29.552 Running script
+2026-07-19 23:02:29.552 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 23:02:29.552 Sessions still active: dict_keys([])
+2026-07-19 23:02:29.552 Files: 0; Sessions with files: 0
+2026-07-19 23:02:29.555 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 23:02:29.585 Removing orphaned files...
+2026-07-19 23:02:29.585 Removing orphaned deferred callables...
+2026-07-19 23:02:30.817 Beginning script thread
+2026-07-19 23:02:30.817 Running script
+2026-07-19 23:02:30.817 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 23:02:30.817 Sessions still active: dict_keys([])
+2026-07-19 23:02:30.817 Files: 0; Sessions with files: 0
+2026-07-19 23:02:30.819 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 23:02:30.865 Removing orphaned files...
+2026-07-19 23:02:30.865 Removing orphaned deferred callables...
+2026-07-19 23:02:34.176 Beginning script thread
+2026-07-19 23:02:34.176 Running script
+2026-07-19 23:02:34.176 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 23:02:34.176 Sessions still active: dict_keys([])
+2026-07-19 23:02:34.176 Files: 0; Sessions with files: 0
+2026-07-19 23:02:34.178 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 23:02:34.206 Removing orphaned files...
+2026-07-19 23:02:34.206 Removing orphaned deferred callables...
+2026-07-19 23:02:34.979 Beginning script thread
+2026-07-19 23:02:34.979 Running script
+2026-07-19 23:02:34.979 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 23:02:34.979 Sessions still active: dict_keys([])
+2026-07-19 23:02:34.979 Files: 0; Sessions with files: 0
+2026-07-19 23:02:34.981 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 23:02:35.023 Removing orphaned files...
+2026-07-19 23:02:35.023 Removing orphaned deferred callables...
+2026-07-19 23:02:41.087 Beginning script thread
+2026-07-19 23:02:41.088 Running script
+2026-07-19 23:02:41.088 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 23:02:41.088 Sessions still active: dict_keys([])
+2026-07-19 23:02:41.088 Files: 0; Sessions with files: 0
+2026-07-19 23:02:41.090 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 23:02:41.117 Removing orphaned files...
+2026-07-19 23:02:41.117 Removing orphaned deferred callables...
+2026-07-19 23:02:41.733 Beginning script thread
+2026-07-19 23:02:41.733 Running script
+2026-07-19 23:02:41.733 Disconnecting files for session with ID d537c750-2f50-4697-bd05-c151797b4917
+2026-07-19 23:02:41.733 Sessions still active: dict_keys([])
+2026-07-19 23:02:41.733 Files: 0; Sessions with files: 0
+2026-07-19 23:02:41.734 Cache key: cae66941d9efbd404e4d88758ea67670
+2026-07-19 23:02:41.779 Removing orphaned files...
+2026-07-19 23:02:41.779 Removing orphaned deferred callables...
+2026-07-19 23:03:40.849 Ignoring changed path C:\Users\camij\Downloads\TP4_Despliegue\TP4\error.log.
+Watched_paths: {'C:\\Users\\camij\\Downloads\\TP4_Despliegue\\TP4\\app.py': WatchedPath(content_hash='a167439b68dc78abd05b9783c945f1a9', modification_time=1784502498.1959786, on_changed=<blinker.base.Signal object at 0x00000214DA449E80>)}
