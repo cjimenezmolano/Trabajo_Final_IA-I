@@ -180,8 +180,8 @@ st.caption(
     "Datos: MLIT (Ministerio de Tierra, Infraestructura, Transporte y Turismo de Japón)"
 )
 
-tab_precio, tab_estructura, tab_info = st.tabs(
-    ["💴 Estimar precio", "🏗️ Clasificar estructura", "ℹ️ Sobre los modelos"]
+tab_precio, tab_estructura = st.tabs(
+    ["💴 Estimar precio", "🏗️ Clasificar estructura"]
 )
 
 
@@ -547,66 +547,3 @@ with tab_estructura:
                 "Nota: `RC` y `SRC` son las clases que más se confunden entre sí, por tratarse "
                 "de sistemas constructivos físicamente similares."
             )
-
-
-# ============================================================================================
-# PESTAÑA 3 — Información sobre los modelos
-# ============================================================================================
-with tab_info:
-    st.subheader("Sobre los modelos desplegados")
-
-    c1, c2 = st.columns(2)
-
-    with c1:
-        st.markdown(f"""
-        #### 💴 Regresor de precio (TP2)
-        - **Algoritmo:** {regresor.get('modelo', 'XGBoost')}
-        - **Target:** `Total transaction value` (¥), modelado sobre `log1p`
-        - **Registros de entrenamiento:** 343.995 (toda la prefectura)
-        - **R² (escala log):** 0,848 en test
-        - **R² (escala ¥):** 0,267 en test
-        - **RMSE:** ¥622.950.151 · **MAE:** ¥29.490.866
-        - **MAPE:** 140,1%
-
-        La diferencia entre el R² logarítmico y el R² en yenes se debe a que la
-        transformación inversa (`expm1`) amplifica el error en la cola de precios altos.
-        """)
-
-    with c2:
-        st.markdown(f"""
-        #### 🏗️ Clasificador de estructura (TP3)
-        - **Algoritmo:** {clasificador.get('modelo', 'XGBoost')}
-        - **Target:** `estructura_principal` (W / S / RC / SRC / Otros)
-        - **Registros de entrenamiento:** 224.622 (solo operaciones con edificio)
-        - **Accuracy:** 89,2% en test
-        - **F1 macro:** 0,566 · **F1 ponderado:** 0,876
-        - **Kappa de Cohen:** 0,635
-        - **ROC-AUC (one-vs-rest):** 0,948
-
-        El desbalance es severo (65,6:1), por eso la métrica de referencia es el
-        F1 macro y no la accuracy.
-        """)
-
-    st.divider()
-    st.markdown("""
-    #### Origen de los datos
-    Los modelos se entrenaron sobre el registro público de **precios de transacciones
-    inmobiliarias del MLIT** (Ministerio de Tierra, Infraestructura, Transporte y Turismo de
-    Japón), acotado a la **Prefectura de Tokio** en el período **2005–2025**.
-
-    #### Limitaciones que conviene tener presentes
-    - Los datos son **autoreportados** por las partes de la operación, lo que puede introducir
-      subreporte y redondeo en los montos.
-    - La cobertura es exclusivamente de Tokio: **no generaliza** a otras prefecturas.
-    - El registro **no incluye** atributos relevantes como calidad constructiva, estado de
-      conservación o las condiciones particulares de cada negociación.
-    - Las superficies mayores a 2.000 m² están **censuradas** en la fuente original.
-    - Esta aplicación tiene fines **académicos y demostrativos**: no constituye una tasación
-      profesional ni debe usarse como base para decisiones de inversión.
-    """)
-
-    st.divider()
-    st.caption(
-        "Proyecto Integrador · Inteligencia Artificial y Aprendizaje Automático I · 2026 · "
-        "Licenciatura en Ciencia de Datos, UCA Rosario"
-    )
