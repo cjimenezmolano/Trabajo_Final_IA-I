@@ -25,7 +25,7 @@ Transporte y Turismo de Japón) para la Prefectura de Tokio, período 2005–202
     └── TP3_Clasificacion_Tokyo.ipynb  # Clasificación del sistema constructivo
 ```
 
-## Puesta en marcha local
+## Como ejecutarlo
 
 ### 1. Clonar el repositorio e instalar dependencias
 
